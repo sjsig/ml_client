@@ -9,14 +9,14 @@ export default function withAuthorization(ComponentToBeRendered) {
     componentWillMount() {
       if (!this.props.isAuthenticated) {
         this.props.history.push("/signin");
-      } else if (this.props.userId != this.props.match.params.id && !this.props.isAdmin) {
+      } else if (this.props.userId != this.props.match.params.id && !this.props.is_admin) {
         this.props.history.push("/");
       }
     }
     componentWillUpdate(nextProps) {
       if (!nextProps.isAuthenticated) {
         this.props.history.push("/signin");
-      } else if (this.props.userId != this.props.match.params.id && !this.props.isAdmin) {
+      } else if (this.props.userId != this.props.match.params.id && !this.props.is_admin) {
         this.props.history.push("/");
       }
     }
@@ -29,7 +29,7 @@ export default function withAuthorization(ComponentToBeRendered) {
     return {
       isAuthenticated: state.currentUser.isAuthenticated,
       userId: state.currentUser.user.id,
-      isAdmin: state.currentUser.user.admin,
+      is_admin: state.currentUser.user.is_admin,
     };
   }
 

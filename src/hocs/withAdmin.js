@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 export default function withAdmin(ComponentToBeRendered) {
   class Admin extends React.Component {
     componentWillMount() {
-      if (!this.props.isAdmin) {
+      if (!this.props.is_admin) {
         this.props.history.push("/");
       }
     }
     componentWillUpdate(nextProps) {
-      if (!nextProps.isAdmin) {
+      if (!nextProps.is_admin) {
         this.props.history.push("/");
       }
     }
@@ -20,7 +20,7 @@ export default function withAdmin(ComponentToBeRendered) {
 
   function mapStateToProps(state) {
     return {
-      isAdmin: state.currentUser.user.admin,
+      is_admin: state.currentUser.user.is_admin,
     };
   }
 

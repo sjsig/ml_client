@@ -2,7 +2,7 @@ import { SET_CURRENT_USER } from "../actionTypes";
 
 const DEFAULT_STATE = {
   isAuthenticated: false, //hopefully true when logged in
-  user: { isAdmin: false }, //all the user infor when logged in
+  user: { isAdmin: false }, //all the user info when logged in
 };
 
 export default (state = DEFAULT_STATE, action) => {
