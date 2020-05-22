@@ -11,7 +11,7 @@ class Navbar extends React.Component {
     };
     const { currentUser, logout } = this.props;
     return (
-      <nav className="navbar navbar-expand">
+      <nav className="navbar navbar-expand" style={{ backgroundColor : 'red'}}>
         <div className="container-fluid">
           <div className="navbar-brand">
             <NavLink exact style={defaultStyle} activeStyle={active} to="/">
@@ -25,6 +25,16 @@ class Navbar extends React.Component {
               </NavLink>
             </div>
           )}
+          <div className="navbar-brand">
+            <NavLink exact style={defaultStyle} activeStyle={active} to="/listings">
+              View Vacant Rentals
+            </NavLink>
+          </div>
+          <div className="navbar-brand">
+            <NavLink exact style={defaultStyle} activeStyle={active} to="/listings/new">
+              List Your Property
+            </NavLink>
+          </div>
           {!currentUser.isAuthenticated ? (
             <div className="nav navbar-nav navbar-right">
               <NavLink exact style={defaultStyle} activeStyle={active} to="/signup">
