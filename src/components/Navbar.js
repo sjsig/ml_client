@@ -11,7 +11,7 @@ class Navbar extends React.Component {
     };
     const { currentUser, logout } = this.props;
     return (
-      <nav className="navbar navbar-expand" style={{ backgroundColor: "red" }}>
+      <nav className="navbar navbar-expand" style={{ backgroundColor: "lightgrey" }}>
         <div className="container-fluid">
           <div className="navbar-brand">
             <NavLink exact style={defaultStyle} activeStyle={active} to="/">
