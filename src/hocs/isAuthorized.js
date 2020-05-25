@@ -4,7 +4,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-export default function withAuthorization(ComponentToBeRendered) {
+export default function Authorized(ComponentToBeRendered) {
   class Authorize extends React.Component {
     componentWillMount() {
       if (!this.props.isAuthenticated) {
@@ -28,7 +28,7 @@ export default function withAuthorization(ComponentToBeRendered) {
   function mapStateToProps(state) {
     return {
       isAuthenticated: state.currentUser.isAuthenticated,
-      userId: state.currentUser.user.id,
+      userId: state.currentUser.user.userId,
       is_admin: state.currentUser.user.is_admin,
     };
   }

@@ -30,11 +30,13 @@ class Navbar extends React.Component {
               View Vacant Rentals
             </NavLink>
           </div>
-          <div className="navbar-brand">
-            <NavLink exact style={defaultStyle} activeStyle={active} to="/listings/new">
-              List Your Property
-            </NavLink>
-          </div>
+          {currentUser.user.is_landlord == 1 && (
+            <div className="navbar-brand">
+              <NavLink exact style={defaultStyle} activeStyle={active} to="/listings/new">
+                List Your Property
+              </NavLink>
+            </div>
+          )}
           {!currentUser.isAuthenticated ? (
             <div className="nav navbar-nav navbar-right">
               <NavLink exact style={defaultStyle} activeStyle={active} to="/signup">
@@ -46,7 +48,7 @@ class Navbar extends React.Component {
             </div>
           ) : (
             <div className="nav navbar-nav navbar-right">
-              <Link exact style={defaultStyle} to={`/users/${currentUser.user.id}`}>
+              <Link exact style={defaultStyle} to={`/users/${currentUser.user.userId}`}>
                 Hello, {currentUser.user.first_name}
               </Link>
               <Link exact style={defaultStyle} to="/">

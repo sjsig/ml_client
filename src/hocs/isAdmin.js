@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-export default function withAdmin(ComponentToBeRendered) {
+export default function isAdmin(ComponentToBeRendered) {
   class Admin extends React.Component {
     componentWillMount() {
       if (!this.props.is_admin) {

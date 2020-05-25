@@ -2,8 +2,10 @@ import React from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-import withAuthorization from "../hocs/withAuthorization";
-import withAdmin from "../hocs/withAdmin";
+import isAuthorized from "../hocs/isAuthorized";
+import isAdmin from "../hocs/isAdmin";
+import isLandlord from "../hocs/isLandlord";
+import isTenant from "../hocs/isTenant";
 import Homepage from "./Homepage";
 import Signup from "./Signup";
 import Signin from "./Signin";
@@ -20,7 +22,7 @@ const Main = (props) => {
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/signin" component={Signin} />
         <Route exact path="/listings" component={RentalListings} />
-        <Route exact path="/listings/new" component={ListNewProperty} />
+        <Route exact path="/listings/new" component={isLandlord(ListNewProperty)} />
         <Route exact path="/users/:id" component={UserProfile} />
         <Route path="*" component={PageNotFound} />
       </Switch>
