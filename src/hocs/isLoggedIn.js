@@ -4,20 +4,16 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-export default function isAuthorized(ComponentToBeRendered) {
-  class isAuthorized extends React.Component {
+export default function isLoggedIn(ComponentToBeRendered) {
+  class isLoggedIn extends React.Component {
     componentWillMount() {
       if (!this.props.isAuthenticated) {
         this.props.history.push("/signin");
-      } else if (this.props.userId != this.props.match.params.id && !this.props.is_admin) {
-        this.props.history.push("/");
       }
     }
     componentWillUpdate(nextProps) {
       if (!nextProps.isAuthenticated) {
         this.props.history.push("/signin");
-      } else if (this.props.userId != this.props.match.params.id && !this.props.is_admin) {
-        this.props.history.push("/");
       }
     }
     render() {
@@ -28,10 +24,8 @@ export default function isAuthorized(ComponentToBeRendered) {
   function mapStateToProps(state) {
     return {
       isAuthenticated: state.currentUser.isAuthenticated,
-      userId: state.currentUser.user.userId,
-      is_admin: state.currentUser.user.is_admin,
     };
   }
 
-  return withRouter(connect(mapStateToProps)(isAuthorized));
+  return withRouter(connect(mapStateToProps)(isLoggedIn));
 }

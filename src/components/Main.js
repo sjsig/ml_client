@@ -6,6 +6,7 @@ import isAuthorized from "../hocs/isAuthorized";
 import isAdmin from "../hocs/isAdmin";
 import isLandlord from "../hocs/isLandlord";
 import isTenant from "../hocs/isTenant";
+import isLoggedIn from "../hocs/isLoggedIn";
 import Homepage from "./Homepage";
 import Signup from "./Signup";
 import Signin from "./Signin";
@@ -21,9 +22,9 @@ const Main = (props) => {
         <Route exact path="/" component={Homepage} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/signin" component={Signin} />
-        <Route exact path="/listings" component={RentalListings} />
+        <Route exact path="/listings" component={isLoggedIn(RentalListings)} />
         <Route exact path="/listings/new" component={isLandlord(ListNewProperty)} />
-        <Route exact path="/users/:id" component={UserProfile} />
+        <Route exact path="/users/:id" component={isAuthorized(UserProfile)} />
         <Route path="*" component={PageNotFound} />
       </Switch>
     </div>
