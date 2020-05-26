@@ -47,6 +47,10 @@ class ListNewProperty extends React.Component {
     });
     this.setState({ units });
   };
+  async deleteUnit(unit_id) {
+    await apiCall("delete", `/api/unit/${unit_id}`);
+    this.props.history.push(`/listings/${this.props.match.params.property_id}`);
+  }
 
   onSubmit = async (e) => {
     e.preventDefault();
@@ -130,6 +134,7 @@ class ListNewProperty extends React.Component {
                             onChange={(e) => this.handleUnitChange(e, "market_price", unit.unit_id)}
                           />
                         </Col>
+                        <button onClick={() => this.deleteUnit(unit.unit_id)}>Delete unit</button>
                       </Row>
                     ))}
                   </div>
