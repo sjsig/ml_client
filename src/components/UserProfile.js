@@ -11,14 +11,22 @@ class UserProfile extends React.Component {
     this.state = {
       userInfo: { accountBalance: 0, username: "" },
       transactionHistory: [],
+      properties: [],
+      lease: {},
     };
   }
   async componentDidMount() {
     let userData = await apiCall("get", `/api/users/${this.props.currentUser.user.userId}`);
     let transactionData = await apiCall("get", `/api/user/${this.props.currentUser.user.userId}/transaction`);
-    console.log("User data:", userData);
-    console.log("Transactions", transactionData);
-    this.setState({ userInfo: userData.user, transactionHistory: transactionData.transactions });
+    let propertiesData = await apiCall("get", `/api/property/landlord/${this.props.currentUser.user.userId}`);
+    let leaseData = await apiCall("get", `/api/lease/${this.props.currentUser.user.userId}`);
+    this.setState({
+      userInfo: userData.user,
+      transactionHistory: transactionData.transactions,
+      properties: propertiesData.properties,
+      lease: leaseData.lease,
+    });
+    console.log("User state:", this.state);
   }
   deleteUser = () => {
     apiCall("delete", `/api/users/${this.props.currentUser.user.userId}`);
@@ -26,6 +34,15 @@ class UserProfile extends React.Component {
     this.props.history.push("/");
   };
   render() {
+    let properties = this.state.properties.map((property) => (
+      <li>
+        <div>
+          {property.address}, {property.city}
+          <button>Edit</button>
+          <button>Delete</button>
+        </div>
+      </li>
+    ));
     return (
       <div>
         <Navbar />
@@ -37,6 +54,19 @@ class UserProfile extends React.Component {
           Your account balance is <em>{this.state.userInfo.accountBalance}</em>
         </h1>
         <h1>You have {this.state.transactionHistory.length} transactions in your history</h1>
+        <h1>Properties</h1>
+        <ul>{properties}</ul>
+        {this.state.lease && (
+          <div>
+            <h1>Lease</h1>
+            <ul>
+              <li>
+                Starts {this.state.lease.start_date}, ends {this.state.lease.end_date}
+              </li>
+              <li>Costs {this.state.lease.price_monthly} per month</li>
+            </ul>
+          </div>
+        )}
 
         <button onClick={this.deleteUser}>Delete Account</button>
       </div>

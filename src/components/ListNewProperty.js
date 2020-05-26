@@ -22,7 +22,6 @@ class ListNewProperty extends React.Component {
     });
   };
   handleUnitChange = (e, attribute, unitId) => {
-    console.log("Handling change for attr:", attribute, "for unit", unitId, "with value", e.target.value);
     let val = e.target.value;
     this.setState((prevState) => {
       let updatedUnits = prevState.units.map((unit) => {
