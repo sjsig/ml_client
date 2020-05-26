@@ -1,9 +1,10 @@
 import React from "react";
 import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
 import { apiCall } from "../services/api";
 import Navbar from "./Navbar";
 
-class UserProfile extends React.Component {
+class NewLease extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +39,7 @@ class UserProfile extends React.Component {
     };
     console.log(leaseInfo);
     let leaseRes = await apiCall("post", `/api/unit/${this.props.match.params.unit_id}/lease`, leaseInfo);
-    console.log(leaseRes);
+    this.props.history.push(`/users/${this.props.currentUser.user.userId}`);
   };
   render() {
     return (
@@ -81,4 +82,10 @@ class UserProfile extends React.Component {
   }
 }
 
-export default withRouter(UserProfile);
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser,
+  };
+}
+
+export default withRouter(connect(mapStateToProps, {})(NewLease));

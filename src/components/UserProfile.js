@@ -33,6 +33,11 @@ class UserProfile extends React.Component {
     this.props.logout();
     this.props.history.push("/");
   };
+
+  terminateLease = () => {
+    apiCall("delete", `/api/unit/${this.state.lease.unit_id}/lease/${this.state.lease.lease_id}`);
+    this.props.history.push(`/users/${this.props.currentUser.user.userId}`);
+  };
   render() {
     let properties = this.state.properties.map((property) => (
       <li>
@@ -53,7 +58,6 @@ class UserProfile extends React.Component {
         <h1>
           Your account balance is <em>{this.state.userInfo.accountBalance}</em>
         </h1>
-        <h1>You have {this.state.transactionHistory.length} transactions in your history</h1>
         {this.props.currentUser.user.is_landlord && (
           <div>
             <h1>Properties</h1>
@@ -69,8 +73,10 @@ class UserProfile extends React.Component {
               </li>
               <li>Costs {this.state.lease.price_monthly} per month</li>
             </ul>
+            <button onClick={this.terminateLease}>Terminate lease</button>
           </div>
         )}
+        <h1>You have {this.state.transactionHistory.length} transactions in your history</h1>
 
         <button onClick={this.deleteUser}>Delete Account</button>
       </div>
