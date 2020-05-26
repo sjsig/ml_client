@@ -67,7 +67,7 @@ class UserProfile extends React.Component {
           <div>
             {property.address}, {property.city}
             <ul>{unitList}</ul>
-            <button>Edit</button>
+            <button onClick={() => this.props.history.push(`/listings/${property.property_id}`)}>Edit</button>
             <button onClick={() => this.deleteProperty(property.property_id)}>Delete</button>
           </div>
         </li>
