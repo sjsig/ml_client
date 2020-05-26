@@ -54,9 +54,13 @@ class UserProfile extends React.Component {
           Your account balance is <em>{this.state.userInfo.accountBalance}</em>
         </h1>
         <h1>You have {this.state.transactionHistory.length} transactions in your history</h1>
-        <h1>Properties</h1>
-        <ul>{properties}</ul>
-        {this.state.lease && (
+        {this.props.currentUser.user.is_landlord && (
+          <div>
+            <h1>Properties</h1>
+            <ul>{properties}</ul>
+          </div>
+        )}
+        {this.props.currentUser.user.is_tenant && this.state.lease && (
           <div>
             <h1>Lease</h1>
             <ul>
