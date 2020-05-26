@@ -56,7 +56,7 @@ class ListNewProperty extends React.Component {
         unit_number: unit.unit_number,
       });
     });
-    this.props.history.push("/listings");
+    this.props.history.push("/");
   };
   render() {
     return (

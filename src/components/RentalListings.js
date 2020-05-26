@@ -4,8 +4,9 @@ import { Container, Col, Card, CardHeader, CardBody, CardFooter, Button, CardTit
 import Navbar from "./Navbar";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:9090/api";
+//const BASE_URL = "http://localhost:9090/api";
 
+const BASE_URL = "http://localhost:9090/api"
 class RentalListings extends React.Component {
   state = {
     units: [],

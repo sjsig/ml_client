@@ -21,10 +21,9 @@ const Main = (props) => {
   return (
     <div>
       <Switch>
-        <Route exact path="/" component={Homepage} />
+        <Route exact path="/" component={isLoggedIn(RentalListings)} />
         <Route exact path="/signup" component={Signup} />
         <Route exact path="/signin" component={Signin} />
-        <Route exact path="/listings" component={isLoggedIn(RentalListings)} />
         <Route exact path="/listings/new" component={isLandlord(ListNewProperty)} />
         <Route exact path="/listings/:property_id" component={isLandlord(EditProperty)} />
         <Route exact path="/lease/new/:unit_id" component={isLoggedIn(NewLease)} />

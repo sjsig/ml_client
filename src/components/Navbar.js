@@ -25,11 +25,7 @@ class Navbar extends React.Component {
               </NavLink>
             </div>
           )}
-          <div className="navbar-brand">
-            <NavLink exact style={defaultStyle} activeStyle={active} to="/listings">
-              View Vacant Rentals
-            </NavLink>
-          </div>
+      
           {currentUser.user.is_landlord == 1 && (
             <div className="navbar-brand">
               <NavLink exact style={defaultStyle} activeStyle={active} to="/listings/new">

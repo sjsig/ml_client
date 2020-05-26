@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { apiCall } from "../services/api";
 import { logout } from "../store/actions/auth";
 import Navbar from "./Navbar";
+import { Container, Row, Col, Button, Card, CardBody, CardHeader, CardFooter } from "reactstrap";
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -57,40 +58,61 @@ class UserProfile extends React.Component {
   render() {
     let properties = this.state.properties.map((property) => {
       let unitList = property.units.map((unit) => (
-        <li>
-          Unit {unit.unit_number}, {unit.market_price} per month,{" "}
-          {unit.is_occupied == 1 ? <em>occupied</em> : <em>unoccupied</em>}
-        </li>
+        <CardBody>
+          <h2>{unit.is_occupied == 1 ? <em>occupied</em> : <em>unoccupied</em>}</h2>
+          <h2>Unit Number: {unit.unit_number}</h2>
+          <h5>Monthly Price: {unit.market_price}</h5>
+        </CardBody>          
       ));
+      
+      
       return (
-        <li>
-          <div>
-            {property.address}, {property.city}
-            <ul>{unitList}</ul>
-            <button onClick={() => this.props.history.push(`/listings/${property.property_id}`)}>Edit</button>
-            <button onClick={() => this.deleteProperty(property.property_id)}>Delete</button>
-          </div>
-        </li>
+        <Card style={{ marginTop: 30, minWidth: 450 }}>
+        <CardHeader>
+          {property.address} in {property.city}
+        </CardHeader>
+        <ul>{unitList}</ul>
+        <CardFooter>
+            <Button color="primary" onClick={() => this.props.history.push(`/listings/${property.property_id}`)}>Edit</Button>
+            <Button color="danger" onClick={() => this.deleteProperty(property.property_id)}>Delete</Button>        
+        </CardFooter>
+      </Card>
+        
+     
       );
     });
     return (
       <div>
         <Navbar />
-        <h1>User profile</h1>
-        <h1>
-          Your username is <em>{this.state.userInfo.username}</em>
-        </h1>
-        <h1>
-          Your account balance is <em>{this.state.userInfo.accountBalance}</em>
-        </h1>
+        <Container style={{ marginTop: 64}}>
+          <Col>
+            <Row style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <h1>Account</h1>
+          </Row>
+            <Row>
+              <h1>
+                Username: <em>{this.state.userInfo.username}</em>
+              </h1>
+            </Row>
+            <Row>
+            <h1>
+              Balance: $<em>{this.state.userInfo.account_balance}</em>
+            </h1>
+            </Row>
+        
+        <Row style={{ marginTop: 64}}>
+        <Col>
+        <Row>
         {this.props.currentUser.user.is_landlord && (
           <div>
             <h1>Properties</h1>
             <ul>{properties}</ul>
           </div>
         )}
+        </Row>
+
         {this.props.currentUser.user.is_tenant && this.state.lease && (
-          <div>
+          <Row>
             <h1>Lease</h1>
             <ul>
               <li>
@@ -99,11 +121,30 @@ class UserProfile extends React.Component {
               <li>Costs {this.state.lease.price_monthly} per month</li>
             </ul>
             <button onClick={this.terminateLease}>Terminate lease</button>
-          </div>
+            </Row>
         )}
-        <h1>You have {this.state.transactionHistory.length} transactions in your history</h1>
-        <button onClick={this.deleteUser}>Delete Account</button>
+
+        </Col>
+        
+        <Col>
+        <Row>
+          <Col>
+        <h1>Trasaction History</h1>
+        <h5>Transaction Count: {this.state.transactionHistory.length}</h5>
+        </Col>
+        </Row>
+        <Row>
+        <Button color="danger" onClick={this.deleteUser}>Delete Account</Button>
         <button onClick={this.testButton}>Console.log current state</button>
+        </Row>
+        </Col>
+
+       </Row>
+       
+       
+       
+        </Col>
+        </Container>
       </div>
     );
   }

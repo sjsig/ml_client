@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { apiCall } from "../services/api";
 import Navbar from "./Navbar";
 
+import {Container, Row, Col, Button } from 'reactstrap'
+
 class NewLease extends React.Component {
   constructor(props) {
     super(props);
@@ -41,20 +43,40 @@ class NewLease extends React.Component {
     let leaseRes = await apiCall("post", `/api/unit/${this.props.match.params.unit_id}/lease`, leaseInfo);
     this.props.history.push(`/users/${this.props.currentUser.user.userId}`);
   };
+
   render() {
     return (
       <div>
         <Navbar />
-        <h3>Property Info:</h3>
+        <Container>
+          <Col>
+          <Row>
+        <h3>Property Info</h3>
+        </Row>
+        <Row>
+
         <ul>
           <li>Address: {this.state.propertyInfo.address}</li>
           <li>City: {this.state.propertyInfo.city}</li>
         </ul>
-        <h3>Unit Info:</h3>
+        </Row>
+
+        <Row>
+
+        <h3>Unit Info</h3>
+        </Row>
+        <Row>
+
         <ul>
           <li>Unit Number: {this.state.unitInfo.unit_number}</li>
           <li>Monthly price: {this.state.unitInfo.market_price}</li>
         </ul>
+        </Row>
+
+        <Row>
+
+        <h3>Lease</h3>
+        </Row>
         <form onSubmit={this.signLease}>
           <label htmlFor="start_date">Start date:</label>
           <input
@@ -75,8 +97,10 @@ class NewLease extends React.Component {
             onChange={this.handleChange}
             value={this.state.end_date}
           />
-          <button type="submit">Sign lease</button>
+          <Button type="submit">Sign lease</Button>
         </form>
+        </Col>
+        </Container>
       </div>
     );
   }

@@ -6,10 +6,17 @@ import axios from "axios";
  * @param {string} path the route path / endpoint
  * @param {object} data {optional} data in JSON form for POST requests
  */
+
+ const BASE_URL = 'http://localhost:9090'
+
 export function apiCall(method, path, data) {
   return new Promise((resolve, reject) => {
-    return axios[method.toLowerCase()](path, data)
-      .then((res) => {
+    return axios({
+      method: method.toLowerCase(),
+      url: BASE_URL + path,
+      data
+    })
+    .then((res) => {
         return resolve(res.data);
       })
       .catch((err) => {
