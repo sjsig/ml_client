@@ -7,7 +7,7 @@ import axios from "axios";
  * @param {object} data {optional} data in JSON form for POST requests
  */
 
- const BASE_URL = 'http://localhost:9090'
+ const BASE_URL = 'https://landlord-app-backend.herokuapp.com'
 
 export function apiCall(method, path, data) {
   return new Promise((resolve, reject) => {
