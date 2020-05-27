@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { apiCall } from "../services/api";
 import Navbar from "./Navbar";
@@ -40,7 +40,6 @@ class NewLease extends React.Component {
       end_date,
     };
     console.log(leaseInfo);
-    let leaseRes = await apiCall("post", `/api/unit/${this.props.match.params.unit_id}/lease`, leaseInfo);
     this.props.history.push(`/users/${this.props.currentUser.user.userId}`);
   };
 

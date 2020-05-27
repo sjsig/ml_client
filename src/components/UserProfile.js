@@ -135,7 +135,6 @@ class UserProfile extends React.Component {
         </Row>
         <Row>
         <Button color="danger" onClick={this.deleteUser}>Delete Account</Button>
-        <button onClick={this.testButton}>Console.log current state</button>
         </Row>
         </Col>
 

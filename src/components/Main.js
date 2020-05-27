@@ -3,11 +3,8 @@ import { Switch, Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import isAuthorized from "../hocs/isAuthorized";
-import isAdmin from "../hocs/isAdmin";
 import isLandlord from "../hocs/isLandlord";
-import isTenant from "../hocs/isTenant";
 import isLoggedIn from "../hocs/isLoggedIn";
-import Homepage from "./Homepage";
 import Signup from "./Signup";
 import Signin from "./Signin";
 import PageNotFound from "./PageNotFound";

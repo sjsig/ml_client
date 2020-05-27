@@ -1,12 +1,11 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import { Container, Col, Card, CardHeader, CardBody, CardFooter, Button, CardTitle, Row } from "reactstrap";
+import { Container, Col, Card, CardHeader, CardBody, CardFooter, Button, Row } from "reactstrap";
 import Navbar from "./Navbar";
 import axios from "axios";
 
-//const BASE_URL = "https://landlord-app-backend.herokuapp.com/api";
-
 const BASE_URL = "https://landlord-app-backend.herokuapp.com/api"
+
 class RentalListings extends React.Component {
   state = {
     units: [],
@@ -28,11 +27,14 @@ class RentalListings extends React.Component {
   render() {
     return (
       <div>
-        <Navbar />
-        <Container style={{ padding: 16 }}>
-          <h1>All Rental Listings</h1>
+        <Navbar/>
+        <Container style={{ display: 'flex', alignItems:'center', justifyContent: 'center' }}>
+          <Row>
           {this.state.units && (
+
             <Col>
+                        <h1 style={{ marginTop:  32}}>All Rental Listings</h1>
+
               {this.state.units.map((unit) => {
                 return (
                   <Row>
@@ -53,6 +55,8 @@ class RentalListings extends React.Component {
               })}
             </Col>
           )}
+                        </Row>
+
         </Container>
       </div>
     );

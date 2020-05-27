@@ -37,7 +37,7 @@ class Signin extends React.Component {
   };
 
   render() {
-    const { username, password } = this.state;
+    const { username } = this.state;
     const { errors, removeError, history } = this.props;
     history.listen(() => {
       //listens for a change in the page history
