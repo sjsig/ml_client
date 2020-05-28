@@ -15,18 +15,20 @@ class UserProfile extends React.Component {
       balance: 0,
       properties: [],
       lease: {},
+      delta: 0,
     };
   }
   async componentDidMount() {
     let userData = await apiCall("get", `/api/users/${this.props.currentUser.user.userId}`);
-    // let transactionData = await apiCall("get", `/api/user/${this.props.currentUser.user.userId}/transaction`);
-    // let balanceData = await apiCall("get", `/api/user/${this.props.currentUser.user.userId}/balance`);
+    let transactionData = await apiCall("get", `/api/user/${this.props.currentUser.user.userId}/transaction`);
+    let balanceData = await apiCall("get", `/api/user/${this.props.currentUser.user.userId}/balance`);
+    console.log("b", balanceData);
     let leaseData = await apiCall("get", `/api/lease/${this.props.currentUser.user.userId}`);
     this.setState({
       userInfo: userData.user,
-      // transactionHistory: transactionData.transactions,
+      transactionHistory: transactionData.transactions,
       lease: leaseData.lease,
-      // balance: balanceData.balance
+      balance: balanceData.balance,
     });
 
     let propertiesData = await apiCall("get", `/api/property/landlord/${this.props.currentUser.user.userId}`);
@@ -39,6 +41,11 @@ class UserProfile extends React.Component {
     });
     console.log("State:", this.state);
   }
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
 
   testButton = () => {
     console.log("current state:", this.state);
@@ -62,10 +69,12 @@ class UserProfile extends React.Component {
 
   addBalance = async (e) => {
     e.preventDefault();
-    let data = { delta: e.target.value, description: `Added ${e.target.value} to account balance` };
+    console.log("b add:", this.state.delta);
+    let data = { delta: this.state.delta, description: `Added ${this.state.delta} to account balance` };
     await apiCall("post", `/api/user/${this.props.currentUser.user.userId}/balance`, data);
     window.location.reload();
   };
+
   render() {
     let properties = this.state.properties.map((property) => {
       let unitList = property.units.map((unit) => (
@@ -122,8 +131,15 @@ class UserProfile extends React.Component {
               </h1>
             </Row>
             <Row>
-              <form onSubmit={(e) => this.addBalance(e)}>
-                <input type="number" placeholder="0" name="balance" id="balance" />
+              <form onSubmit={this.addBalance}>
+                <input
+                  type="number"
+                  placeholder="0"
+                  name="delta"
+                  id="delta"
+                  value={this.state.delta}
+                  onChange={(e) => this.handleChange(e)}
+                />
                 <Button color="primary" type="submit">
                   Add to balance
                 </Button>
