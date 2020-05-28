@@ -3,8 +3,9 @@ import { Container, Button, Form, FormGroup, Label, Input, FormText, Row, Col } 
 import Navbar from "./Navbar";
 import { apiCall } from "../services/api";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
-class ListNewProperty extends React.Component {
+class EditProperty extends React.Component {
   state = {
     address: "",
     city: "",
@@ -47,9 +48,10 @@ class ListNewProperty extends React.Component {
     });
     this.setState({ units });
   };
-  async deleteUnit(unit_id) {
+  async deleteUnit(unit_id, existed) {
     await apiCall("delete", `/api/unit/${unit_id}`);
-    this.props.history.push(`/listings/${this.props.match.params.property_id}`);
+    // this.props.history.push(`/listings/${this.props.match.params.property_id}`);
+    window.location.reload();
   }
 
   onSubmit = async (e) => {
@@ -71,8 +73,9 @@ class ListNewProperty extends React.Component {
         });
       }
     });
-    this.props.history.push(`/listings`);
+    this.props.history.push(`/users/${this.props.currentUser.user.id}`);
   };
+
   render() {
     return (
       <div>
@@ -140,7 +143,7 @@ class ListNewProperty extends React.Component {
                   </div>
                 </FormGroup>
 
-                <Button type="submit">Edit</Button>
+                <Button type="submit">Submit changes</Button>
               </Form>
             </Row>
           </Col>
@@ -150,4 +153,10 @@ class ListNewProperty extends React.Component {
   }
 }
 
-export default withRouter(ListNewProperty);
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser,
+  };
+}
+
+export default withRouter(connect(mapStateToProps, {})(EditProperty));
