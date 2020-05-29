@@ -168,7 +168,7 @@ class UserProfile extends React.Component {
             <Row style={{ marginTop: 64 }}>
               <Col>
                 <Row>
-                  {this.props.currentUser.user.is_landlord && (
+                  {this.props.currentUser.user.is_landlord == 1 && (
                     <div>
                       <h1>Properties</h1>
                       <ul>{properties}</ul>
@@ -179,7 +179,7 @@ class UserProfile extends React.Component {
 
               <Col>
                 <Row>
-                  {this.props.currentUser.user.is_tenant && this.state.lease && (
+                  {this.props.currentUser.user.is_tenant == 1 && this.state.lease && (
                     <Card style={{ marginTop: 30, minWidth: 450 }}>
                       <CardHeader>Current lease</CardHeader>
                       <Col>
@@ -204,10 +204,12 @@ class UserProfile extends React.Component {
                   )}
                 </Row>
                 <Row>
-                  <Col>
-                    <h1>Trasaction History</h1>
-                    {transactions}
-                  </Col>
+                  {this.state.transactionHistory.length > 0 && (
+                    <Col>
+                      <h1>Trasaction History</h1>
+                      {transactions}
+                    </Col>
+                  )}
                 </Row>
                 <Row>
                   <Button color="danger" onClick={this.deleteUser}>

@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { Container, Col, Card, CardHeader, CardBody, CardFooter, Button, Row } from "reactstrap";
 import Navbar from "./Navbar";
 import axios from "axios";
+import { apiCall } from "../services/api";
 
 // const BASE_URL = "https://landlord-app-backend.herokuapp.com/api"
 const BASE_URL = "http://localhost:9090/api";
@@ -16,7 +17,14 @@ class RentalListings extends React.Component {
       data: { units },
     } = await axios.get(BASE_URL + "/listings");
     this.setState({ units });
-    console.log(this.state.units);
+    const newUnits = this.state.units.map(async (unit) => {
+      let landlord_score = await apiCall("get", `/api/rating/${unit.owner_id}/score`);
+      return { ...unit, landlord_score: landlord_score.avg_score };
+    });
+    Promise.all(newUnits).then((values) => {
+      this.setState({ units: values });
+      console.log(this.state.units);
+    });
   }
 
   leaseProperty = (e, unitId) => {
@@ -39,14 +47,25 @@ class RentalListings extends React.Component {
                     <Row>
                       <Card style={{ marginTop: 30, minWidth: 450 }}>
                         <CardHeader>
-                          {unit.address} in {unit.city}
+                          <Col>
+                            {" "}
+                            <Row>
+                              {unit.address} in {unit.city}
+                            </Row>
+                            <Row> Landlord's Average Score: {unit.landlord_score}</Row>
+                          </Col>
                         </CardHeader>
                         <CardBody>
                           <h2>Unit Number: {unit.unit_number}</h2>
                           <h5>Monthly Price: {unit.market_price}</h5>
                         </CardBody>
                         <CardFooter>
-                          <Button onClick={(e) => this.leaseProperty(e, unit.unit_id)}>Lease This Property</Button>
+                          <Button onClick={(e) => this.props.history.push(`/ratings/${unit.owner_id}`)} color="primary">
+                            See landlord's ratings
+                          </Button>
+                          <Button onClick={(e) => this.leaseProperty(e, unit.unit_id)} color="success">
+                            Lease This Property
+                          </Button>
                         </CardFooter>
                       </Card>
                     </Row>

@@ -15,6 +15,7 @@ import NewLease from "./NewLease";
 import EditProperty from "./EditProperty";
 import LandlordRating from "./LandlordRating";
 import isTenant from "../hocs/isTenant";
+import AllLandlordRatings from "./AllLandlordRatings";
 
 const Main = (props) => {
   return (
@@ -28,6 +29,7 @@ const Main = (props) => {
         <Route exact path="/lease/new/:unit_id" component={isLoggedIn(NewLease)} />
         <Route exact path="/users/:id" component={isAuthorized(UserProfile)} />
         <Route exact path="/rating/:landlord_id" component={isTenant(LandlordRating)} />
+        <Route exact path="/ratings/:landlord_id" component={isLoggedIn(AllLandlordRatings)} />
         <Route path="*" component={PageNotFound} />
       </Switch>
     </div>
