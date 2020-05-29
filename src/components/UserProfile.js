@@ -5,6 +5,7 @@ import { apiCall } from "../services/api";
 import { logout } from "../store/actions/auth";
 import Navbar from "./Navbar";
 import { Container, Row, Col, Button, Card, CardBody, CardHeader, CardFooter } from "reactstrap";
+import dateFormat from "dateformat";
 
 class UserProfile extends React.Component {
   constructor(props) {
@@ -103,14 +104,32 @@ class UserProfile extends React.Component {
       );
     });
 
-    let transactions = this.state.transactionHistory.map((transaction) => {
-      return (
-        <Row>
-          <Col>{transaction.delta}</Col>
-          <Col>{transaction.date}</Col>
-          <Col>{transaction.description}</Col>
-        </Row>
-      );
+    let transactions = this.state.transactionHistory.map((transaction, index) => {
+      if (index % 2 == 1) {
+        return (
+          <Row>
+            {transaction.delta >= 0 ? (
+              <Col style={{ color: "green" }}>{transaction.delta}</Col>
+            ) : (
+              <Col style={{ color: "red" }}>{transaction.delta}</Col>
+            )}
+            <Col>{dateFormat(transaction.date)}</Col>
+            <Col>{transaction.description}</Col>
+          </Row>
+        );
+      } else {
+        return (
+          <Row style={{ backgroundColor: "lightgrey" }}>
+            {transaction.delta >= 0 ? (
+              <Col style={{ color: "green" }}>{transaction.delta}</Col>
+            ) : (
+              <Col style={{ color: "red" }}>{transaction.delta}</Col>
+            )}
+            <Col>{dateFormat(transaction.date)}</Col>
+            <Col>{transaction.description}</Col>
+          </Row>
+        );
+      }
     });
     return (
       <div>
@@ -161,18 +180,27 @@ class UserProfile extends React.Component {
               <Col>
                 <Row>
                   {this.props.currentUser.user.is_tenant && this.state.lease && (
-                    <Row>
-                      <h1>Lease</h1>
-                      <ul>
-                        <li>
-                          Starts {this.state.lease.start_date}, ends {this.state.lease.end_date}
-                        </li>
-                        <li>Costs {this.state.lease.price_monthly} per month</li>
-                      </ul>
-                      <Button color="danger" onClick={this.terminateLease}>
-                        Terminate lease
-                      </Button>
-                    </Row>
+                    <Card style={{ marginTop: 30, minWidth: 450 }}>
+                      <CardHeader>Current lease</CardHeader>
+                      <Col>
+                        <Row>
+                          Starts {dateFormat(this.state.lease.start_date, "shortDate")}, ends{" "}
+                          {dateFormat(this.state.lease.end_date, "shortDate")}
+                        </Row>
+                        <Row>Costs {this.state.lease.price_monthly} per month</Row>
+                      </Col>
+                      <CardFooter>
+                        <Button
+                          color="primary"
+                          onClick={() => this.props.history.push(`/rating/${this.state.lease.owner_id}`)}
+                        >
+                          Rate landlord
+                        </Button>
+                        <Button color="danger" onClick={this.terminateLease}>
+                          Terminate lease
+                        </Button>
+                      </CardFooter>
+                    </Card>
                   )}
                 </Row>
                 <Row>
