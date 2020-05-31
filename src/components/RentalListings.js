@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import { Container, Col, Card, CardHeader, CardBody, CardFooter, Button, Row } from "reactstrap";
 import Navbar from "./Navbar";
 import axios from "axios";
@@ -43,33 +44,38 @@ class RentalListings extends React.Component {
                 <h1 style={{ marginTop: 32 }}>All Rental Listings</h1>
 
                 {this.state.units.map((unit) => {
-                  return (
-                    <Row>
-                      <Card style={{ marginTop: 30, minWidth: 450 }}>
-                        <CardHeader>
-                          <Col>
-                            {" "}
-                            <Row>
-                              {unit.address} in {unit.city}
-                            </Row>
-                            <Row> Landlord's Average Score: {unit.landlord_score}</Row>
-                          </Col>
-                        </CardHeader>
-                        <CardBody>
-                          <h2>Unit Number: {unit.unit_number}</h2>
-                          <h5>Monthly Price: {unit.market_price}</h5>
-                        </CardBody>
-                        <CardFooter>
-                          <Button onClick={(e) => this.props.history.push(`/ratings/${unit.owner_id}`)} color="primary">
-                            See landlord's ratings
-                          </Button>
-                          <Button onClick={(e) => this.leaseProperty(e, unit.unit_id)} color="success">
-                            Lease This Property
-                          </Button>
-                        </CardFooter>
-                      </Card>
-                    </Row>
-                  );
+                  if (unit.owner_id != this.props.currentUser.user.userId) {
+                    return (
+                      <Row>
+                        <Card style={{ marginTop: 30, minWidth: 450 }}>
+                          <CardHeader>
+                            <Col>
+                              {" "}
+                              <Row>
+                                {unit.address} in {unit.city}
+                              </Row>
+                              <Row> Landlord's Average Score: {unit.landlord_score}</Row>
+                            </Col>
+                          </CardHeader>
+                          <CardBody>
+                            <h2>Unit Number: {unit.unit_number}</h2>
+                            <h5>Monthly Price: {unit.market_price}</h5>
+                          </CardBody>
+                          <CardFooter>
+                            <Button
+                              onClick={(e) => this.props.history.push(`/ratings/${unit.owner_id}`)}
+                              color="primary"
+                            >
+                              See landlord's ratings
+                            </Button>
+                            <Button onClick={(e) => this.leaseProperty(e, unit.unit_id)} color="success">
+                              Lease This Property
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                      </Row>
+                    );
+                  }
                 })}
               </Col>
             )}
@@ -79,5 +85,10 @@ class RentalListings extends React.Component {
     );
   }
 }
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser,
+  };
+}
 
-export default withRouter(RentalListings);
+export default withRouter(connect(mapStateToProps, {})(RentalListings));
