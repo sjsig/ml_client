@@ -69,7 +69,7 @@ class RentalListings extends React.Component {
                               See landlord's ratings
                             </Button>
                             <Button onClick={(e) => this.leaseProperty(e, unit.unit_id)} color="success">
-                              Lease This Property
+                              Lease This Unit
                             </Button>
                           </CardFooter>
                         </Card>
